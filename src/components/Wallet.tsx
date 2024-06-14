@@ -1,17 +1,26 @@
+// src/components/Wallet.tsx
+import { Box, Button, Text, Flex, IconButton, Tooltip, VStack, useToast } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { Magic } from "magic-sdk";
-import { Box, Button, Text, Flex, IconButton, Tooltip, VStack, useToast } from "@chakra-ui/react";
 import { MdAccountBalance, MdSend, MdHome, MdImage, MdShoppingCart, MdContentCopy } from "react-icons/md";
 
 const Wallet = () => {
   const [magic, setMagic] = useState<Magic | null>(null);
-  const [address, setAddress] = useState("");
+  const [address, setAddress] = useState<string>("");
   const toast = useToast();
 
   useEffect(() => {
     const magicPublishableKey = process.env.NEXT_PUBLIC_MAGIC_PUBLISHABLE_KEY;
+
     if (!magicPublishableKey) {
       console.error("Magic publishable key is not defined.");
+      toast({
+        title: "Error",
+        description: "Magic publishable key is not defined.",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+      });
       return;
     }
 
@@ -19,11 +28,15 @@ const Wallet = () => {
       const magicInstance = new Magic(magicPublishableKey);
       setMagic(magicInstance);
 
-      magicInstance.user.getMetadata().then(({ publicAddress }) => {
-        setAddress(publicAddress);
+      magicInstance.user.getMetadata().then((metadata) => {
+        if (metadata.publicAddress) {
+          setAddress(metadata.publicAddress);
+        } else {
+          console.error("Public address is null.");
+        }
       });
     }
-  }, []);
+  }, [toast]);
 
   const showBalance = () => {
     magic?.wallet.showBalances();
@@ -50,7 +63,7 @@ const Wallet = () => {
       bg="white"
       borderRadius="md"
       boxShadow="lg"
-      maxW="md" // Cambiado de maxW="sm" a maxW="md" para hacer el contenedor más ancho
+      maxW="md"
       w="full"
       textAlign="center"
       overflowX="auto"
@@ -71,8 +84,8 @@ const Wallet = () => {
       <Flex justifyContent="center" alignItems="center" gap={4} wrap="nowrap" px={2}>
         <VStack>
           <Button
-            w={14} // Reducido de w={16}
-            h={14} // Reducido de h={16}
+            w={14}
+            h={14}
             colorScheme="blue"
             borderRadius="full"
             onClick={showBalance}
@@ -83,8 +96,8 @@ const Wallet = () => {
         </VStack>
         <VStack>
           <Button
-            w={14} // Reducido de w={16}
-            h={14} // Reducido de h={16}
+            w={14}
+            h={14}
             colorScheme="blue"
             borderRadius="full"
             onClick={showSendTokens}
@@ -95,8 +108,8 @@ const Wallet = () => {
         </VStack>
         <VStack>
           <Button
-            w={14} // Reducido de w={16}
-            h={14} // Reducido de h={16}
+            w={14}
+            h={14}
             colorScheme="blue"
             borderRadius="full"
             onClick={showBalance}
@@ -107,8 +120,8 @@ const Wallet = () => {
         </VStack>
         <VStack>
           <Button
-            w={14} // Reducido de w={16}
-            h={14} // Reducido de h={16}
+            w={14}
+            h={14}
             colorScheme="blue"
             borderRadius="full"
             onClick={showBalance}
@@ -119,8 +132,8 @@ const Wallet = () => {
         </VStack>
         <VStack>
           <Button
-            w={14} // Reducido de w={16}
-            h={14} // Reducido de h={16}
+            w={14}
+            h={14}
             colorScheme="blue"
             borderRadius="full"
             onClick={showBalance}
