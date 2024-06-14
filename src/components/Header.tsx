@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 const Header = () => {
   const { colorMode, toggleColorMode } = useColorMode();
   const router = useRouter();
-  const [magic, setMagic] = useState<Magic | null>(null);  // <- Aquí agregamos el tipo
+  const [magic, setMagic] = useState<Magic | null>(null);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
