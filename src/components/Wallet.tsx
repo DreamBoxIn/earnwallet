@@ -1,16 +1,22 @@
-import { Box, Button, Text, Flex, IconButton, Tooltip, VStack, useToast, useColorModeValue } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { Magic } from "magic-sdk";
+import { Box, Button, Text, Flex, IconButton, Tooltip, VStack, useToast } from "@chakra-ui/react";
 import { MdAccountBalance, MdSend, MdHome, MdImage, MdShoppingCart, MdContentCopy } from "react-icons/md";
 
 const Wallet = () => {
-  const [magic, setMagic] = useState(null);
+  const [magic, setMagic] = useState<Magic | null>(null);
   const [address, setAddress] = useState("");
   const toast = useToast();
 
   useEffect(() => {
+    const magicPublishableKey = process.env.NEXT_PUBLIC_MAGIC_PUBLISHABLE_KEY;
+    if (!magicPublishableKey) {
+      console.error("Magic publishable key is not defined.");
+      return;
+    }
+
     if (typeof window !== "undefined") {
-      const magicInstance = new Magic(process.env.NEXT_PUBLIC_MAGIC_PUBLISHABLE_KEY);
+      const magicInstance = new Magic(magicPublishableKey);
       setMagic(magicInstance);
 
       magicInstance.user.getMetadata().then(({ publicAddress }) => {
@@ -38,17 +44,13 @@ const Wallet = () => {
     });
   };
 
-  const bg = useColorModeValue("white", "gray.700");
-  const color = useColorModeValue("black", "white");
-
   return (
     <Box
       p={4}
-      bg={bg}
-      color={color}
+      bg="white"
       borderRadius="md"
       boxShadow="lg"
-      maxW="md"
+      maxW="md" // Cambiado de maxW="sm" a maxW="md" para hacer el contenedor más ancho
       w="full"
       textAlign="center"
       overflowX="auto"
@@ -69,8 +71,8 @@ const Wallet = () => {
       <Flex justifyContent="center" alignItems="center" gap={4} wrap="nowrap" px={2}>
         <VStack>
           <Button
-            w={14}
-            h={14}
+            w={14} // Reducido de w={16}
+            h={14} // Reducido de h={16}
             colorScheme="blue"
             borderRadius="full"
             onClick={showBalance}
@@ -81,8 +83,8 @@ const Wallet = () => {
         </VStack>
         <VStack>
           <Button
-            w={14}
-            h={14}
+            w={14} // Reducido de w={16}
+            h={14} // Reducido de h={16}
             colorScheme="blue"
             borderRadius="full"
             onClick={showSendTokens}
@@ -93,8 +95,8 @@ const Wallet = () => {
         </VStack>
         <VStack>
           <Button
-            w={14}
-            h={14}
+            w={14} // Reducido de w={16}
+            h={14} // Reducido de h={16}
             colorScheme="blue"
             borderRadius="full"
             onClick={showBalance}
@@ -105,8 +107,8 @@ const Wallet = () => {
         </VStack>
         <VStack>
           <Button
-            w={14}
-            h={14}
+            w={14} // Reducido de w={16}
+            h={14} // Reducido de h={16}
             colorScheme="blue"
             borderRadius="full"
             onClick={showBalance}
@@ -117,8 +119,8 @@ const Wallet = () => {
         </VStack>
         <VStack>
           <Button
-            w={14}
-            h={14}
+            w={14} // Reducido de w={16}
+            h={14} // Reducido de h={16}
             colorScheme="blue"
             borderRadius="full"
             onClick={showBalance}
