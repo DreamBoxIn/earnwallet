@@ -10,6 +10,7 @@ const ShowOnRamp = () => {
 
   useEffect(() => {
     const magicPublishableKey = process.env.NEXT_PUBLIC_MAGIC_PUBLISHABLE_KEY;
+
     if (!magicPublishableKey) {
       console.error("Magic publishable key is not defined.");
       toast({
